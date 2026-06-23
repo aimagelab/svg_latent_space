@@ -232,6 +232,16 @@ h3 {
   box-shadow: 0 14px 30px rgba(15, 118, 110, 0.24);
 }
 
+.button-disabled {
+  background: #e2e8f0;
+  color: #64748b;
+  border-color: rgba(15, 23, 42, 0.08);
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -349,6 +359,10 @@ h3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.app-card-featured {
+  grid-column: 2 / 3;
+}
+
 .bibtex-card summary {
   cursor: pointer;
   font-weight: 700;
@@ -433,6 +447,10 @@ pre {
   .stats-grid,
   .app-grid {
     grid-template-columns: 1fr;
+  }
+
+  .app-card-featured {
+    grid-column: auto;
   }
 
   .section {
