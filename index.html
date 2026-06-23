@@ -1,124 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Scalable Vector Graphics Latent Space</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            line-height: 1.6;
-            color: #222;
-        }
-
-        h1, h2 {
-            text-align: center;
-        }
-
-        .authors {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .affiliation {
-            text-align: center;
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .links {
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .links a {
-            display: inline-block;
-            margin: 5px;
-            padding: 10px 18px;
-            background: #f3f3f3;
-            border-radius: 6px;
-            text-decoration: none;
-            color: black;
-        }
-
-        .teaser {
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .teaser img {
-            max-width: 100%;
-            border-radius: 8px;
-        }
-
-        .section {
-            margin-top: 50px;
-        }
-
-        video {
-            width: 100%;
-            border-radius: 8px;
-        }
-
-        .citation {
-            background: #f7f7f7;
-            padding: 15px;
-            border-radius: 6px;
-            overflow-x: auto;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SLS: A Scalable SVG Latent Space</title>
+  <meta name="description" content="SLS learns compact, invertible path embeddings for vector graphics and enables reconstruction, retrieval, captioning, generation, and interpolation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top">SLS</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#motivation">Motivation</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#applications">Applications</a>
+        <a href="#bibtex">BibTeX</a>
+      </nav>
+    </div>
+  </header>
 
-<h1>A Scalable Vector Graphics Latent Space</h1>
+  <main id="top">
+    <section class="hero section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">ECCV 2026 Project Page</p>
+          <h1>SLS: A Scalable SVG Latent Space</h1>
+          <p class="subtitle">Learning compact, invertible path embeddings for vector graphics.</p>
+          <p class="authors">Leonardo Zini, Elia Frigieri, Lorenzo Baraldi</p>
+          <p class="affiliation">University of Modena and Reggio Emilia</p>
+          <div class="button-row">
+            <a class="button button-primary" href="#" data-editable="paper">Paper</a>
+            <a class="button" href="https://github.com/aimagelab/svg_latent_space">Code</a>
+            <a class="button" href="#" data-editable="dataset">Dataset</a>
+            <a class="button" href="#" data-editable="models">Models</a>
+            <a class="button" href="#bibtex">BibTeX</a>
+          </div>
+        </div>
+        <div class="hero-figure card">
+          <button class="figure-preview" type="button" data-preview-src="assets/rendered/teaser.png" data-preview-alt="Teaser figure for SLS">
+            <img src="assets/rendered/teaser.png" alt="Teaser figure for SLS" loading="eager">
+          </button>
+          <div class="figure-meta">
+            <p class="figure-caption">SLS provides a compact SVG latent space that preserves editability, supports inversion back to vector paths, and enables downstream vector-native applications.</p>
+            <a class="asset-link" href="assets/teaser.pdf">View source PDF</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="authors">
-    Leonardo Zini · Elia Frigieri · Lorenzo Baraldi
-</div>
+    <section id="motivation" class="section section-alt">
+      <div class="container narrow">
+        <div class="section-heading">
+          <p class="eyebrow">Motivation</p>
+          <h2>SVGs still lack the latent spaces that made raster vision scale</h2>
+        </div>
+        <p>Raster images benefit from continuous latent spaces such as VAEs and CLIP-style embeddings, but SVGs still do not have a compact, continuous, and invertible representation. That gap matters because SVGs are symbolic, editable, and resolution-independent, which makes them attractive for graphics, design, and multimodal modeling.</p>
+        <p>Existing SVG methods typically depend on long token sequences or rasterization-heavy pipelines. SLS instead maps each SVG path to a single dense vector, giving vector graphics a representation that is compact enough for foundation-model pipelines while remaining faithful to the underlying geometry and style.</p>
+      </div>
+    </section>
 
-<div class="affiliation">
-    University of Modena and Reggio Emilia
-</div>
+    <section id="method" class="section">
+      <div class="container two-column">
+        <div>
+          <div class="section-heading left-align">
+            <p class="eyebrow">Method</p>
+            <h2>From symbolic paths to invertible latent tokens</h2>
+          </div>
+          <p>SLS encodes each SVG path into one dense latent token through a unified tokenization scheme that captures both geometry and style. The resulting embedding lies on the unit hypersphere, giving a normalized latent space that works cleanly for similarity, interpolation, retrieval, and generation.</p>
+          <ul class="feature-list">
+            <li>Path-level representation: one dense vector per SVG path instead of long XML sequences.</li>
+            <li>Unified tokenization of geometry and style via BPE over symbolic SVG commands.</li>
+            <li>Invertibility through a learned decoder that reconstructs the original path representation.</li>
+            <li>Unit hypersphere embeddings for stable latent-space operations and downstream learning.</li>
+          </ul>
+          <p class="pipeline">SVG path → BPE tokenizer → Transformer encoder → dense latent vector → Transformer decoder → SVG path</p>
+        </div>
+        <div class="card figure-card">
+          <button class="figure-preview" type="button" data-preview-src="assets/rendered/method.png" data-preview-alt="Method figure for SLS">
+            <img src="assets/rendered/method.png" alt="Method figure for SLS" loading="lazy">
+          </button>
+          <div class="figure-meta">
+            <a class="asset-link" href="assets/method.pdf">View source PDF</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="links">
-    <a href="#">📄 Paper (Coming Soon)</a>
-    <a href="https://github.com/aimagelab/svg_latent_space">💻 Code (Coming Soon)</a>
-</div>
-    
-<!--
-<div class="teaser">
-    <img src="teaser.png" alt="Project teaser">
-    <p><em>Teaser figure describing the main contribution.</em></p>
-</div>
-    -->
+    <section id="results" class="section section-alt">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Key Results</p>
+          <h2>Compact enough for scale, structured enough for decoding</h2>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card card">
+            <p class="stat-value">156×</p>
+            <p class="stat-label">shorter context</p>
+          </article>
+          <article class="stat-card card">
+            <p class="stat-value">167×</p>
+            <p class="stat-label">fewer training TFLOPs</p>
+          </article>
+          <article class="stat-card card">
+            <p class="stat-value">Invertible</p>
+            <p class="stat-label">path embeddings</p>
+          </article>
+        </div>
+        <p class="results-copy">SLS reduces SVG captioning context length from 2432 XML tokens to 15.56 latent tokens while improving downstream quality. The result is a representation that is dramatically cheaper to model without sacrificing vector fidelity.</p>
+      </div>
+    </section>
 
-<!-- 
-<div class="section">
-    <h2>Abstract</h2>
-    <p>
-        Replace this text with the abstract of your paper.
-        Briefly explain the problem, the proposed method,
-        and the main results.
-    </p>
-</div>
+    <section id="reconstruction" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Reconstruction</p>
+          <h2>Geometry and style are both preserved</h2>
+        </div>
+        <div class="card figure-card wide-figure">
+          <button class="figure-preview" type="button" data-preview-src="assets/rendered/reconstruction_qualitatives.png" data-preview-alt="Reconstruction qualitative figure">
+            <img src="assets/rendered/reconstruction_qualitatives.png" alt="Reconstruction qualitative figure" loading="lazy">
+          </button>
+          <div class="figure-meta">
+            <p class="figure-caption">SLS reconstructs SVG geometry and stylistic attributes more faithfully than prior SVG encoders, retaining both shape structure and rendering cues.</p>
+            <a class="asset-link" href="assets/reconstruction_qualitatives.pdf">View source PDF</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="section">
-    <h2>Citation</h2>
-    <div class="citation">
-<pre>
-@inproceedings{yourpaper2026,
-  title={Project Title},
-  author={Author One and Author Two and Author Three},
+    <section id="robustness" class="section section-alt">
+      <div class="container two-column reverse">
+        <div class="card figure-card">
+          <button class="figure-preview" type="button" data-preview-src="assets/rendered/noise_charts.png" data-preview-alt="Latent space robustness charts">
+            <img src="assets/rendered/noise_charts.png" alt="Latent space robustness charts" loading="lazy">
+          </button>
+          <div class="figure-meta">
+            <a class="asset-link" href="assets/noise_charts.pdf">View source PDF</a>
+          </div>
+        </div>
+        <div>
+          <div class="section-heading left-align">
+            <p class="eyebrow">Latent Space Robustness</p>
+            <h2>Stable under meaningful perturbations</h2>
+          </div>
+          <p>SLS remains robust under Gaussian noise and angular perturbations in latent space. This indicates that the learned representation is not only compact, but also locally well-behaved for manipulation, search, and generative modeling.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="generation" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Generation</p>
+          <h2>Vector-native synthesis from the learned latent space</h2>
+        </div>
+        <div class="card figure-card wide-figure">
+          <button class="figure-preview" type="button" data-preview-src="assets/rendered/generation.png" data-preview-alt="SVG generation results">
+            <img src="assets/rendered/generation.png" alt="SVG generation results" loading="lazy">
+          </button>
+          <div class="figure-meta">
+            <p class="figure-caption">The SLS latent space supports SVG generation directly in a compact vector-native representation.</p>
+            <a class="asset-link" href="assets/generation.pdf">View source PDF</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="interpolation" class="section section-alt">
+      <div class="container two-column">
+        <div>
+          <div class="section-heading left-align">
+            <p class="eyebrow">Interpolation</p>
+            <h2>A continuous manifold for SVGs</h2>
+          </div>
+          <p>Smooth latent interpolation shows that SLS learns a structured continuous SVG manifold. Traversing between embeddings yields coherent transitions in vector geometry and style rather than brittle token-level jumps.</p>
+        </div>
+        <div class="card figure-card">
+          <button class="figure-preview" type="button" data-preview-src="assets/rendered/interpolation.png" data-preview-alt="SVG interpolation results">
+            <img src="assets/rendered/interpolation.png" alt="SVG interpolation results" loading="lazy">
+          </button>
+          <div class="figure-meta">
+            <a class="asset-link" href="assets/interpolation.pdf">View source PDF</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="applications" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Applications</p>
+          <h2>One latent space, multiple vector-native tasks</h2>
+        </div>
+        <div class="app-grid">
+          <article class="card app-card"><h3>SVG retrieval</h3><p>Compact path embeddings for similarity search across large vector collections.</p></article>
+          <article class="card app-card"><h3>SVG captioning</h3><p>Short latent contexts that are much easier for language models to consume.</p></article>
+          <article class="card app-card"><h3>SVG generation</h3><p>Dense latent tokens suitable for scalable generative pipelines.</p></article>
+          <article class="card app-card"><h3>SVG interpolation</h3><p>Continuous morphing across geometry and appearance in vector space.</p></article>
+          <article class="card app-card"><h3>Vector-native editing</h3><p>Manipulate paths directly without rasterizing away symbolic structure.</p></article>
+          <article class="card app-card"><h3>Foundation models for vector graphics</h3><p>A compact representation layer for multimodal and large-scale vector understanding.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="bibtex" class="section section-alt">
+      <div class="container narrow">
+        <div class="section-heading">
+          <p class="eyebrow">Citation</p>
+          <h2>BibTeX</h2>
+        </div>
+        <details class="card bibtex-card" open>
+          <summary>Show citation</summary>
+          <pre id="bibtex-block">@inproceedings{zini2026sls,
+  title={A Scalable Vector Graphics Latent Space},
+  author={Zini, Leonardo and Frigieri, Elia and Baraldi, Lorenzo},
   booktitle={ECCV},
   year={2026}
-}
-</pre>
+}</pre>
+          <button class="button button-primary copy-button" type="button" data-copy-target="bibtex-block">Copy BibTeX</button>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>SLS project page. Update the button links in the hero section when the paper, dataset, and models are public.</p>
+      <a href="#top">Back to top</a>
     </div>
-</div>
--->
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" type="button" aria-label="Close preview">×</button>
+    <div class="lightbox-inner">
+      <img id="lightbox-image" src="" alt="">
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
