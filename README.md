@@ -8,6 +8,9 @@ SLS encodes each SVG path into a 1024 dimensional vector and decodes it back
 into symbolic geometry and style. This repository contains the model,
 preprocessing, training and inference code.
 
+The `main` branch contains the code. The [website source](https://github.com/aimagelab/svg_latent_space/tree/gh-pages)
+is maintained on `gh-pages`, which GitHub Pages publishes at the project page above.
+
 ## Installation
 
 Use Python 3.11. Run the following commands from the repository root:
