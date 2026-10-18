@@ -1,16 +1,10 @@
-<div align="center">
-  <h1> A Scalable Vector Graphics Latent Space </h1>
-</div>
+# SLS project website
 
-<div align="center">
-  
-[![Conference](https://img.shields.io/badge/ECCV-2026-yellow.svg)](https://arxiv.org/abs/)
-[![Paper](https://img.shields.io/badge/Paper-arxiv.XXXX.YYYYYY-B31B1B.svg)](https://arxiv.org/abs/)
-[![Project Page](https://img.shields.io/badge/🌐-Project%20Page-blue.svg)](https://aimagelab.github.io/svg_latent_space/)
-</div>
+This branch contains the project website for **A Scalable Vector Graphics Latent Space** (ECCV 2026).
 
+- [Published website](https://aimagelab.github.io/svg_latent_space/)
+- [Training and inference code (`main`)](https://github.com/aimagelab/svg_latent_space/tree/main)
+- [Paper on arXiv](https://arxiv.org/abs/2608.21893)
 
-## 📢 Latest Updates
-  - [2026/06/18] 📚 Out paper has been **accepted @ ECCV 2026**
-
-## Overview
+GitHub Pages publishes this branch from its root directory. Edit `index.html`,
+`style.css`, `script.js`, and `assets/` here to update the website.
