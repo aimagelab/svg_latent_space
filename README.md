@@ -174,3 +174,16 @@ python -m unittest discover -s tests -v
 
 The tests cover asset configuration, padding, gradients, checkpoint reload and
 style augmentation. They do not require the released model checkpoint.
+
+## Citation
+
+If you use SLS in your research, please cite:
+
+```bibtex
+@inproceedings{zini2026scalable,
+  title     = {A Scalable Vector Graphics Latent Space},
+  author    = {Zini, Leonardo and Frigieri, Elia and Baraldi, Lorenzo},
+  booktitle = {Proceedings of the European Conference on Computer Vision (ECCV)},
+  year      = {2026}
+}
+```
