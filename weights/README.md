@@ -1,5 +1,12 @@
 In this version, setting `SLS_ASSETS_DIR` is required for training and inference
-with the default config. Set it to the asset folder, which contains:
+with the default config. Download the assets from [lzini/SLS](https://huggingface.co/lzini/SLS):
+
+```bash
+hf download lzini/SLS --local-dir sls_release
+export SLS_ASSETS_DIR="$(realpath sls_release)"
+```
+
+The asset folder contains:
 
 ```text
 sls_release/
@@ -16,3 +23,5 @@ with `inference.py --checkpoint DIRECTORY`.
 
 The checkpoint is about 557 MiB and is excluded from Git. See
 `assets_manifest.json` at the repository root for checksums and exact sizes.
+The released weights and tokenizer are licensed under Apache-2.0; the license
+and model card are included in the Hugging Face repository.

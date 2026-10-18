@@ -3,6 +3,7 @@
 **ECCV 2026** · [Project page](https://aimagelab.github.io/svg_latent_space/)
 
 [![arXiv](https://img.shields.io/badge/arXiv-2608.21893-b31b1b.svg)](https://arxiv.org/abs/2608.21893)
+[![Weights](https://img.shields.io/badge/Hugging%20Face-Weights-yellow)](https://huggingface.co/lzini/SLS)
 
 SLS encodes each SVG path into a 1024 dimensional vector and decodes it back
 into symbolic geometry and style. This repository contains the model,
@@ -30,7 +31,16 @@ your machine. Training defaults to BF16; CPU training uses `--cpu`.
 inference with the default `configs/sls.yaml`.** This environment variable
 points to the folder containing both the checkpoint and the tokenizer.
 
-Arrange the release assets as follows:
+Download the weights and tokenizer from [lzini/SLS on Hugging Face](https://huggingface.co/lzini/SLS),
+then export the asset directory:
+
+```bash
+hf download lzini/SLS --local-dir sls_release
+export SLS_ASSETS_DIR="$(realpath sls_release)"
+```
+
+The released weights and tokenizer are licensed under Apache-2.0. The downloaded
+folder contains:
 
 ```text
 sls_release/
@@ -42,7 +52,7 @@ sls_release/
     └── tokenizer.vocab
 ```
 
-Replace `path/to/sls_release` below with the location of that folder, then run:
+If you already downloaded the assets elsewhere, point to that folder instead:
 
 ```bash
 export SLS_ASSETS_DIR="$(realpath path/to/sls_release)"
