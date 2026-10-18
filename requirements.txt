@@ -1,0 +1,11 @@
+# Python 3.11. Direct dependencies from the verified release environment.
+# Install the appropriate PyTorch CPU/CUDA build for your machine.
+torch==2.9.1
+transformers==4.54.1
+accelerate==1.14.0
+datasets==5.0.1
+safetensors==0.8.0
+sentencepiece==0.2.2
+numpy==2.4.6
+PyYAML==6.0.3
+svgpathtools==1.8.0

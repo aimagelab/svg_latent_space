@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local model assets and training output
+weights/*
+!weights/README.md
+outputs/
+data/
+wandb/

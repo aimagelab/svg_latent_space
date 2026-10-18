@@ -1,0 +1,60 @@
+# Required with this config: export SLS_ASSETS_DIR to the release asset folder.
+max_seq_length: 1024
+early_stopping_patience: 5
+data_augmentation:
+  threshold: 0.25
+  transformations:
+  - replace_black_with_random
+  - switch_style
+model:
+  d_model: 1024
+  nhead: 8
+  num_layers: 8
+  dim_feedforward: 2048
+  use_flash: false
+  num_tokens: 448
+  noise: 1.0
+  l2norm: false
+  cls_mode: last
+  kl_loss: 0.2
+  kl_target_scale: 1.0
+  ckpt_path: ${SLS_ASSETS_DIR}/weights/sls
+trainer:
+  fp16: false
+  bf16: true
+  per_device_train_batch_size: 48
+  per_device_eval_batch_size: 48
+  gradient_accumulation_steps: 1
+  gradient_checkpointing: false
+  max_grad_norm: 1.0
+  learning_rate: 0.0001
+  num_train_epochs: 5000
+  weight_decay: 0.01
+  optim: adamw_torch
+  lr_scheduler_type: constant_with_warmup
+  warmup_steps: 6000
+  group_by_length: false
+  save_steps: 10000
+  save_strategy: steps
+  save_total_limit: 5
+  logging_steps: 100
+  do_train: true
+  do_eval: true
+  eval_strategy: steps
+  eval_steps: 10000
+  remove_unused_columns: false
+  report_to: none
+  load_best_model_at_end: true
+  metric_for_best_model: eval_loss
+  dataloader_num_workers: 12
+  ddp_find_unused_parameters: false
+  dataloader_prefetch_factor: 2
+  dataloader_pin_memory: true
+  dataloader_persistent_workers: true
+  prediction_loss_only: true
+tokenizer:
+  path: ${SLS_ASSETS_DIR}/tokenizer
+generation:
+  max_length: 1026
+  temperature: 1.0
+  sampling_method: greedy

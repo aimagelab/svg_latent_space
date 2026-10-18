@@ -1,0 +1,19 @@
+{
+  "assets": [
+    {
+      "path": "weights/sls/model.safetensors",
+      "size_bytes": 584080944,
+      "sha256": "b65302e56d6efc3c4ff15fe11416a8e69a47482d34d0666acc946fdaa08ce462"
+    },
+    {
+      "path": "tokenizer/tokenizer.model",
+      "size_bytes": 243094,
+      "sha256": "5e8138435700fa82071c228a6d302f3a059b3fbc1a1531f7952b70046f8cd537"
+    },
+    {
+      "path": "tokenizer/tokenizer.vocab",
+      "size_bytes": 3999,
+      "sha256": "dcd4f2afa212961094edfbbb7496cf55cabb1d6bd035ed17785300975fa48785"
+    }
+  ]
+}
